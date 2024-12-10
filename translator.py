@@ -39,7 +39,7 @@ def process_messages(file_path):
                     data.append([row_num, date, "", " ".join(parts)])
                     continue
                 if len(parts.strip()) < 1:
-                    data.append([row_num], date, "", parts[2]])
+                    data.append([[row_num], date, "", parts[2]])
                     continue
                 translated_text = Translator().translate(parts[2]).text
                 data.append([row_num, date, translated_text, parts[2]])
