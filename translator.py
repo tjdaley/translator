@@ -12,35 +12,35 @@ The file is very large and will have to be chunked.
 import pandas as pd
 from googletrans import Translator
 
-def translate_and_table(file_path, chunksize=100):
-  """Reads a large text file, translates messages, and generates a Markdown table.
+def process_messages(file_path):
+    """
+    處理訊息檔案，將訊息轉換成 DataFrame 格式
 
-  Args:
-    file_path: Path to the text file.
-    chunksize: Number of lines to process in each chunk.
+    Args:
+        file_path: 訊息檔案的路徑
 
-  Returns:
-    A pandas DataFrame containing the row number, English translation, and original text.
-  """
+    Returns:
+        pandas.DataFrame: 包含行號、日期、翻譯訊息和原始訊息的 DataFrame
+    """
 
-  df = pd.DataFrame(columns=['Row Number', 'English Translation', 'Original Text'])
+    data = []
+    date = None
+    row_num = 1
 
-  with pd.read_csv(file_path, chunksize=chunksize) as reader:
-    for chunk in reader:
-      chunk['English Translation'] = chunk.apply(lambda row: Translator().translate(row['Original Text']).text, axis=1)
-      df = pd.concat([df, chunk], ignore_index=True)
+    with open(file_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                date = line.strip()
+            else:
+                # Google Translate
+                translated_text = Translator().translate(line.split('\t')[2]).text
+                data.append([row_num, date, translated_text, line])
+                row_num += 1
 
-  # Create a Markdown table
-  markdown_table = df.to_markdown(index=False, numalign='left', stralign='left')
+    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
+    return df
 
-  return markdown_table
-
-# Example usage:
-file_path = input("Input file name:")
-markdown_table = translate_and_table(file_path)
-
-# Print or save the Markdown table
-print(markdown_table)
-# Or, save it to a file:
-with open('translated_messages.md', 'w') as f:
-  f.write(markdown_table)
+file_path = input("Input file name: ")
+df = process_messages(file_path)
+print(df)
