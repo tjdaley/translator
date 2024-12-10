@@ -36,7 +36,7 @@ def process_messages(file_path):
                 # Google Translate
                 parts = line.split('\t')
                 if len(parts) < 3:
-                    data.append([row_num, date, "", " ".join(parts))
+                    data.append([row_num, date, "", " ".join(parts)])
                     continue
                 translated_text = Translator().translate(line.split('\t')[2]).text
                 data.append([row_num, date, translated_text, line])
