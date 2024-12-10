@@ -33,17 +33,20 @@ def process_messages(file_path):
             if not line:
                 date = line.strip()
             else:
-                # Google Translate
-                parts = line.split('\t')
-                if len(parts) < 3:
-                    data.append([row_num, date, "", " ".join(parts)])
-                    continue
-                if len(parts[2].strip()) < 1:
-                    data.append([[row_num], date, "", parts[2]])
-                    continue
-                translated_text = Translator().translate(parts[2]).text
-                data.append([row_num, date, translated_text, parts[2]])
-                row_num += 1
+                try:
+                    # Google Translate
+                    parts = line.split('\t')
+                    if len(parts) < 3:
+                        data.append([row_num, date, "", " ".join(parts)])
+                        continue
+                    if len(parts[2].strip()) < 1:
+                        data.append([[row_num], date, "", parts[2]])
+                        continue
+                    translated_text = Translator().translate(parts[2]).text
+                    data.append([row_num, date, translated_text, parts[2]])
+                    row_num += 1
+                catch Exception as e:
+                    print(row_num, str(e))
 
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
     return df
