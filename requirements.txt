@@ -1,3 +1,2 @@
 pandas
-googletrans
 google-cloud-translate
