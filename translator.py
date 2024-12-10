@@ -25,10 +25,11 @@ def process_messages(file_path):
 
     data = []
     date = None
-    row_num = 1
+    row_num = 0
 
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:
+            row_num += 1
             line = line.strip()
             if not line:
                 date = line.strip()
@@ -44,10 +45,9 @@ def process_messages(file_path):
                         continue
                     translated_text = Translator().translate(parts[2]).text
                     data.append([row_num, date, translated_text, parts[2]])
-                    row_num += 1
                 except Exception as e:
                     print(row_num, line, "::".join(parts), "\n\t", str(e))
-            if row_num > 500:
+            if row_num > 50:
                 break
 
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
