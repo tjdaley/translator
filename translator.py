@@ -12,7 +12,7 @@ The file is very large and will have to be chunked.
 import pandas as pd
 from google.cloud import translate_v2 as translate
 
-def translate_messages(file_path, project_id):
+def translate_text(text, api_key, target_language='en'):
     """
     Translates messages in a text file using the Google Cloud Translation API.
 
@@ -24,7 +24,7 @@ def translate_messages(file_path, project_id):
         A pandas DataFrame containing the row number, date, translated message, and original message.
     """
 
-    client = translate.Client()
+    client = translate.Client(credentials=translate.Credentials(api_key=api_key))
 
     data = []
     date = None
@@ -40,7 +40,7 @@ def translate_messages(file_path, project_id):
                 message = line.split('\t')[2]
 
                 # Translate the message using the Google Cloud Translation API
-                result = client.translate(message, target_language='en')
+                result = client.translate(message, target_language=target_language)
                 translated_text = result['translatedText']
 
                 data.append([row_num, date, translated_text, message])
@@ -51,7 +51,7 @@ def translate_messages(file_path, project_id):
 
 # Example usage:
 file_path = input("Input file name: ")
-project_id = input("Project ID     : ")
+project_id = input("API Key       : ")
 
 df = translate_messages(file_path, project_id)
 print(df.to_markdown(index=False))
