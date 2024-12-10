@@ -12,7 +12,7 @@ The file is very large and will have to be chunked.
 import pandas as pd
 from googletrans import Translator
 
-def translate_and_table(file_path, chunksize=10000):
+def translate_and_table(file_path, chunksize=100):
   """Reads a large text file, translates messages, and generates a Markdown table.
 
   Args:
