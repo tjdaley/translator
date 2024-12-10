@@ -45,8 +45,9 @@ def process_messages(file_path):
                     translated_text = Translator().translate(parts[2]).text
                     data.append([row_num, date, translated_text, parts[2]])
                     row_num += 1
-                catch Exception as e:
+                except Exception as e:
                     print(row_num, str(e))
+                    break
 
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
     return df
