@@ -10,50 +10,48 @@ You are a python programmer. Create a python program that will:
 The file is very large and will have to be chunked.
 """
 import pandas as pd
-from googletrans import Translator
+from google.cloud import translate_v2 as translate
 
-def process_messages(file_path):
+def translate_messages(file_path, project_id):
     """
-    處理訊息檔案，將訊息轉換成 DataFrame 格式
+    Translates messages in a text file using the Google Cloud Translation API.
 
     Args:
-        file_path: 訊息檔案的路徑
+        file_path: Path to the text file.
+        project_id: Your Google Cloud project ID.
 
     Returns:
-        pandas.DataFrame: 包含行號、日期、翻譯訊息和原始訊息的 DataFrame
+        A pandas DataFrame containing the row number, date, translated message, and original message.
     """
+
+    client = translate.Client()
 
     data = []
     date = None
-    row_num = 0
+    row_num = 1
 
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:
-            row_num += 1
             line = line.strip()
             if not line:
                 date = line.strip()
             else:
-                try:
-                    # Google Translate
-                    parts = line.split('\t')
-                    if len(parts) < 3:
-                        data.append([row_num, date, "", " ".join(parts)])
-                        continue
-                    if len(parts[2].strip()) < 1:
-                        data.append([[row_num], date, "", parts[2]])
-                        continue
-                    print("Translating:", parts[2])
-                    translated_text = Translator().translate(parts[2]).text
-                    data.append([row_num, date, translated_text, parts[2]])
-                except Exception as e:
-                    print(row_num, line, "::".join(parts), "\n\t", str(e))
-            if row_num > 50:
-                break
+                # Extract the message from the line (adjust as needed)
+                message = line.split('\t')[2]
 
-    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
+                # Translate the message using the Google Cloud Translation API
+                result = client.translate(message, target_language='en')
+                translated_text = result['translatedText']
+
+                data.append([row_num, date, translated_text, message])
+                row_num += 1
+
+    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated Message', 'Original Message'])
     return df
 
+# Example usage:
 file_path = input("Input file name: ")
-df = process_messages(file_path)
-print(df)
+project_id = input("Project ID     : ")
+
+df = translate_messages(file_path, project_id)
+print(df.to_markdown(index=False))
