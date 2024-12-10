@@ -38,8 +38,11 @@ def process_messages(file_path):
                 if len(parts) < 3:
                     data.append([row_num, date, "", " ".join(parts)])
                     continue
-                translated_text = Translator().translate(line.split('\t')[2]).text
-                data.append([row_num, date, translated_text, line])
+                if len(parts.strip()) < 1:
+                    data.append([row_num], date, "", parts[2]])
+                    continue
+                translated_text = Translator().translate(parts[2]).text
+                data.append([row_num, date, translated_text, parts[2]])
                 row_num += 1
 
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
