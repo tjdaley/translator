@@ -43,6 +43,7 @@ def process_messages(file_path):
                     if len(parts[2].strip()) < 1:
                         data.append([[row_num], date, "", parts[2]])
                         continue
+                    print("Translating:", parts[2])
                     translated_text = Translator().translate(parts[2]).text
                     data.append([row_num, date, translated_text, parts[2]])
                 except Exception as e:
