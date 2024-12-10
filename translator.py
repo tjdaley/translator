@@ -36,7 +36,7 @@ def translate_and_table(file_path, chunksize=10000):
   return markdown_table
 
 # Example usage:
-file_path = 'your_large_text_file.txt'
+file_path = input("Input file name:")
 markdown_table = translate_and_table(file_path)
 
 # Print or save the Markdown table
