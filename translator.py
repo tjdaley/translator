@@ -47,6 +47,8 @@ def process_messages(file_path):
                     row_num += 1
                 except Exception as e:
                     print(row_num, line, "::".join(parts), "\n\t", str(e))
+            if row_num > 500:
+                break
 
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated message', 'Original Message'])
     return df
