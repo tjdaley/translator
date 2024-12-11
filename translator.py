@@ -27,8 +27,12 @@ def translate_text(text, target_language='en'):
     Returns:
         A pandas DataFrame containing the row number, date, translated message, and original message.
     """
-    credentials = Credentials.from_service_account_file('./.servicekey.json')
-    client = translate.Client(credentials=credentials)
+    try:
+        credentials = Credentials.from_service_account_file('./.servicekey.json')
+        client = translate.Client(credentials=credentials)
+    except Exception as e:
+        print("Error authenticating and authorizing:", str(e))
+        exit(0)
 
     data = []
     date = None
@@ -40,6 +44,7 @@ def translate_text(text, target_language='en'):
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:
             row_num += 1
+            retry = True
             line = line.strip()
             if not line:
                 next_line_is_date = True
@@ -57,7 +62,20 @@ def translate_text(text, target_language='en'):
                     message = line_parts[2]
 
                     # Translate the message using the Google Cloud Translation API
-                    result = client.translate(message, target_language=target_language)
+                    while retry:
+                        try:
+                            result = client.translate(message, target_language=target_language)
+                        except Exception as e:
+                            print("Error translating line", row_num, ":", str(e))
+                            action = input("Abort, Retry, or Ignore?")
+                            if action == "A":
+                                exit(0)
+                            elif action == "R":
+                                retry = True
+                            elif action == "I":
+                                retry = False
+                                continue
+
                     translated_text = result['translatedText']
 
                     data.append([row_num, date_stamp, time_stamp, originator, translated_text, message])
