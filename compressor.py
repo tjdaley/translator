@@ -4,17 +4,20 @@ def compress_text_file(input_file, output_file):
     try:
         # Open the file with UTF-8 encoding
         with open(input_file, "r", encoding="utf-8") as file:
-            content = file.read()
+            lines = file.readlines()
 
-        # Replace consecutive spaces with a single space
-        compressed_content = re.sub(r'\s+', ' ', content)
+        # Process each line to compress spaces and dashes
+        compressed_lines = []
+        for line in lines:
+            # Replace consecutive spaces with a single space
+            line = re.sub(r'\s+', ' ', line)
+            # Replace sequences of dashes longer than 5 with exactly 5 dashes
+            line = re.sub(r'-{6,}', '-----', line)
+            compressed_lines.append(line)
 
-        # Replace sequences of dashes longer than 5 with exactly 5 dashes
-        compressed_content = re.sub(r'-{6,}', '-----', compressed_content)
-
-        # Write the compressed content to the output file
+        # Write the compressed lines to the output file
         with open(output_file, "w", encoding="utf-8") as file:
-            file.write(compressed_content)
+            file.writelines(compressed_lines)
 
         print(f"Compression completed successfully. Output saved to '{output_file}'.")
 
