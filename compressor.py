@@ -17,7 +17,7 @@ def compress_text_file(input_file, output_file):
 
         # Write the compressed lines to the output file
         with open(output_file, "w", encoding="utf-8") as file:
-            file.writelines(compressed_lines)
+            file.writelines('\n'.join(compressed_lines))
 
         print(f"Compression completed successfully. Output saved to '{output_file}'.")
 
