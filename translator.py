@@ -62,7 +62,6 @@ def translate_text(text, api_key, target_language='en'):
 
 # Example usage:
 file_path = input("Input file name: ")
-project_id = input("API Key       : ")
 
 df = translate_text(file_path, project_id)
 with open('translator.md', 'w', encoding='utf-8') as f:
