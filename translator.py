@@ -43,7 +43,7 @@ def translate_text(text, target_language='en'):
             line = line.strip()
             if not line:
                 next_line_is_date = True
-                break;
+                continue;
             elif next_line_is_date:
                 date_stamp = line.strip()
                 next_line_is_date = False
