@@ -13,6 +13,8 @@ import pandas as pd
 from google.cloud import translate_v2 as translate
 from google.oauth2.service_account import Credentials
 
+ROW_LIMIT = 100
+
 def translate_text(text, api_key, target_language='en'):
     """
     Translates messages in a text file using the Google Cloud Translation API.
@@ -51,6 +53,9 @@ def translate_text(text, api_key, target_language='en'):
                     data.append([row_num, date, translated_text, message])
                 else:
                     data.append([row_num, date, "", line])
+
+            if row_num > ROW_LIMIT and ROW_LIMIT > 0:
+                break
                     
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated Message', 'Original Message'])
     return df
