@@ -54,5 +54,5 @@ def translate_text(text, api_key, target_language='en'):
 file_path = input("Input file name: ")
 project_id = input("API Key       : ")
 
-df = translate_messages(file_path, project_id)
+df = translate_text(file_path, project_id)
 print(df.to_markdown(index=False))
