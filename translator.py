@@ -64,7 +64,7 @@ def translate_text(text, target_language='en'):
 # Example usage:
 file_path = input("Input file name: ")
 
-df = translate_text(file_path, project_id)
+df = translate_text(file_path)
 with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
     f.write(df.to_markdown(index=False))
 
