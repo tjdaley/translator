@@ -7,13 +7,13 @@ You are a python programmer. Create a python program that will:
 2. Translate the message into English
 3. Output a markdown table where the left column is the row number, the middle column is English translation, and the right column is the original text.
 
-The file is very large and will have to be chunked.
+I then modified the program, but Gemini got me started. --TJD
 """
 import pandas as pd
 from google.cloud import translate_v2 as translate
 from google.oauth2.service_account import Credentials
 
-ROW_LIMIT = 100
+ROW_LIMIT = 0  # Less than 1 means no limit--process the entire input file.
 OUTPUT_FILE = 'translator.md'
 
 def translate_text(text, target_language='en'):
@@ -78,4 +78,3 @@ with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
     f.write(df.to_markdown(index=False))
 
 print(f"{len(df)} rows of output saved to {OUTPUT_FILE}")
-
