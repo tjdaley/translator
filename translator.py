@@ -29,24 +29,29 @@ def translate_text(text, api_key, target_language='en'):
 
     data = []
     date = None
-    row_num = 1
+    row_num = 0
 
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:
+            row_num += 1
             line = line.strip()
             if not line:
                 date = line.strip()
             else:
-                # Extract the message from the line (adjust as needed)
-                message = line.split('\t')[2]
+                line_parts = line.split('\t')
 
-                # Translate the message using the Google Cloud Translation API
-                result = client.translate(message, target_language=target_language)
-                translated_text = result['translatedText']
+                if len(line_parts) == 3:    # Regular text line
+                    # Extract the message from the line (adjust as needed)
+                    message = line.split('\t')[2]
 
-                data.append([row_num, date, translated_text, message])
-                row_num += 1
+                    # Translate the message using the Google Cloud Translation API
+                    result = client.translate(message, target_language=target_language)
+                    translated_text = result['translatedText']
 
+                    data.append([row_num, date, translated_text, message])
+                else:
+                    data.append([row_num, date, "", line])
+                    
     df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated Message', 'Original Message'])
     return df
 
