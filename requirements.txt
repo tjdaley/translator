@@ -1,3 +1,4 @@
 pandas
+tabulate
 google-cloud-translate
 google-auth
