@@ -67,7 +67,7 @@ def translate_text(text, target_language='en'):
             if row_num > ROW_LIMIT and ROW_LIMIT > 0:
                 break
                     
-    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Translated Message', 'Original Message'])
+    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Time', 'Translated Message', 'Original Message'])
     return df
 
 # Example usage:
