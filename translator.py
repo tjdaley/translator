@@ -33,27 +33,36 @@ def translate_text(text, target_language='en'):
     data = []
     date = None
     row_num = 0
+    next_line_is_date = False
+    date_stamp = ''
+    time_stamp = ''
 
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:
             row_num += 1
             line = line.strip()
             if not line:
-                date = line.strip()
+                next_line_is_date = True
+                break;
+            elif next_line_is_date:
+                date_stamp = line.strip()
+                next_line_is_date = False
             else:
                 line_parts = line.split('\t')
 
                 if len(line_parts) == 3:    # Regular text line
                     # Extract the message from the line (adjust as needed)
-                    message = line.split('\t')[2]
+                    time_stamp = line_parts[0]
+                    originator = line_parts[1]
+                    message = line_parts[2]
 
                     # Translate the message using the Google Cloud Translation API
                     result = client.translate(message, target_language=target_language)
                     translated_text = result['translatedText']
 
-                    data.append([row_num, date, translated_text, message])
+                    data.append([row_num, date_stamp, time_stamp, translated_text, message])
                 else:
-                    data.append([row_num, date, "", line])
+                    data.append([row_num, date_stamp, time_stamp, "(short params)", line])
 
             if row_num > ROW_LIMIT and ROW_LIMIT > 0:
                 break
