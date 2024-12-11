@@ -68,5 +68,5 @@ df = translate_text(file_path)
 with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
     f.write(df.to_markdown(index=False))
 
-print(f"{row_num} rows of output saved to {OUTPUT_FILE}")
+print(f"{len(df)} rows of output saved to {OUTPUT_FILE}")
 
