@@ -60,14 +60,14 @@ def translate_text(text, target_language='en'):
                     result = client.translate(message, target_language=target_language)
                     translated_text = result['translatedText']
 
-                    data.append([row_num, date_stamp, time_stamp, translated_text, message])
+                    data.append([row_num, date_stamp, time_stamp, originator, translated_text, message])
                 else:
-                    data.append([row_num, date_stamp, time_stamp, "(short params)", line])
+                    data.append([row_num, "", "", "", "(short params)", line])
 
             if row_num > ROW_LIMIT and ROW_LIMIT > 0:
                 break
                     
-    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Time', 'Translated Message', 'Original Message'])
+    df = pd.DataFrame(data, columns=['Row Number', 'Date', 'Time', 'Sender', 'Translated Message', 'Original Message'])
     return df
 
 # Example usage:
