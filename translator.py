@@ -11,6 +11,7 @@ The file is very large and will have to be chunked.
 """
 import pandas as pd
 from google.cloud import translate_v2 as translate
+from google.oath2.service_account import Credentials
 
 def translate_text(text, api_key, target_language='en'):
     """
@@ -23,8 +24,8 @@ def translate_text(text, api_key, target_language='en'):
     Returns:
         A pandas DataFrame containing the row number, date, translated message, and original message.
     """
-
-    client = translate.Client(credentials=translate.Credentials(api_key=api_key))
+    credentials = Credentials.from_service_account_file('./.servicekey.json')
+    client = translate.Client(credentials=credentials)
 
     data = []
     date = None
