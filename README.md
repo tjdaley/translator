@@ -34,4 +34,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-7. 
+7. Google Cloud Console
+   A. Create a Project
+   B. Set up a billing account
+   B. Authorize the Google-Cloud APIs
+   C. Create a service account
+   D. Add a JSON key to the service account (which will automatically download)
+9. Save the Service Account.json
+    Save the service account to a file called ".serviceaccount.json
+11. Run the Program
