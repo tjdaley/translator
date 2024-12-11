@@ -1,6 +1,34 @@
 # translator
 Translates rows of text messages to English.
 
+## Input Format
+
+The application expects the input file to be tab-delimited as follows, where "*" represents a tab
+
+```
+[blank line]
+[date stamp]
+[time_stamp] * [sender] * [message]
+[time_stamp] * [sender] * [message]
+[time_stamp] * [sender] * [message]
+[blank line]
+[date stamp]
+[time_stamp] * [sender] * [message]
+[time_stamp] * [sender] * [message]
+[time_stamp] * [sender] * [message]
+[time_stamp] * [sender] * [message]
+[time_stamp] * [sender] * [message]
+```
+
+It will output a Markdown table in a file called **translator.md** formatted like this:
+
+```
+[date_stamp] | [time_stamp] | [sender] | [translated_message] | [original_message]
+[date_stamp] | [time_stamp] | [sender] | [translated_message] | [original_message]
+[date_stamp] | [time_stamp] | [sender] | [translated_message] | [original_message]
+[date_stamp] | [time_stamp] | [sender] | [translated_message] | [original_message]
+```
+
 # Setup
 
 1. Clone the repository:
