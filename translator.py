@@ -11,7 +11,7 @@ The file is very large and will have to be chunked.
 """
 import pandas as pd
 from google.cloud import translate_v2 as translate
-from google.oath2.service_account import Credentials
+from google.oauth2.service_account import Credentials
 
 def translate_text(text, api_key, target_language='en'):
     """
