@@ -14,8 +14,9 @@ from google.cloud import translate_v2 as translate
 from google.oauth2.service_account import Credentials
 
 ROW_LIMIT = 100
+OUTPUT_FILE = 'translator.md'
 
-def translate_text(text, api_key, target_language='en'):
+def translate_text(text, target_language='en'):
     """
     Translates messages in a text file using the Google Cloud Translation API.
 
@@ -64,5 +65,8 @@ def translate_text(text, api_key, target_language='en'):
 file_path = input("Input file name: ")
 
 df = translate_text(file_path, project_id)
-with open('translator.md', 'w', encoding='utf-8') as f:
+with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
     f.write(df.to_markdown(index=False))
+
+print(f"{row_num} rows of output saved to {OUTPUT_FILE}")
+
